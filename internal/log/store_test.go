@@ -72,8 +72,10 @@ func TestStoreClose(t *testing.T) {
 	f, err := os.CreateTemp("", "store_close_test")
 	require.NoError(t, err)
 	defer os.Remove(f.Name())
+	
 	s, err := newStore(f)
 	require.NoError(t, err)
+	
 	_, _, err = s.Append(write)
 	require.NoError(t, err)
 	
@@ -96,9 +98,11 @@ func openFile(name string) (file *os.File, size int64, err error)  {
 	if err != nil {
 		return nil, 0, err
 	}
+	
 	fi, err := f.Stat()
 	if err != nil {
 		return nil, 0, err
 	}
+	
 	return f, fi.Size(), nil
 }
