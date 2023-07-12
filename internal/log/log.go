@@ -1,7 +1,6 @@
 package log
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"path"
@@ -74,7 +73,7 @@ func (l *Log) setup() error {
 			return err
 		}
 	}
-	
+
 	return nil
 }
 
@@ -105,11 +104,11 @@ func (l *Log) Read(off uint64) (*api.Record, error) {
 			break
 		}
 	}
-	
+
 	if s == nil || s.nextOffset <= off {
-		return nil, fmt.Errorf("offset out of range: %d", off)
+		return nil, api.ErrOffsetOutOfRange{Offset: off}
 	}
-	
+
 	return s.Read(off)
 }
 
@@ -133,7 +132,7 @@ func (l *Log) Close() error {
 		if err := segment.Close(); err != nil {
 			return err
 		}
-	
+
 	}
 
 	return nil
@@ -170,7 +169,7 @@ func (l *Log) HighestOffset() (uint64, error) {
 	if off == 0 {
 		return 0, nil
 	}
-	
+
 	return off - 1, nil
 }
 
@@ -189,7 +188,7 @@ func (l *Log) Truncate(lowest uint64) error {
 		segments = append(segments, s)
 	}
 	l.segments = segments
-	
+
 	return nil
 }
 
@@ -201,7 +200,7 @@ func (l *Log) Reader() io.Reader {
 	for i, segment := range l.segments {
 		readers[i] = &originReader{segment.store, 0}
 	}
-	
+
 	return io.MultiReader(readers...)
 }
 
