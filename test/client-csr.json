@@ -1,0 +1,17 @@
+{
+    "CN": "client",
+    "hosts": [""],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "BR",
+            "L": "VG",
+            "ST": "MT",
+            "O": "CORE LAB",
+            "OU": "CORE LAB CA Services"
+        }
+    ]
+}
